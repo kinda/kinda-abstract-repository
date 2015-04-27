@@ -1,5 +1,6 @@
 "use strict";
 
+var _ = require('lodash');
 var KindaObject = require('kinda-object');
 
 var KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', function() {
@@ -12,14 +13,16 @@ var KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
     this.collectionClasses = {};
     collectionClasses.forEach(function(klass) {
       this.collectionClasses[klass.getName()] = klass;
-    });
+    }, this);
     this.repository = this;
   });
 
   this.createCollection = function(name) {
     var klass = this.collectionClasses[name];
     if (!klass) throw new Error('collection class \'' + name + '\' not found');
-    return klass.create();
+    var collection = klass.create();
+    collection.setRepository(this);
+    return collection;
   };
 });
 
