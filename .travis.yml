@@ -11,9 +11,9 @@ deploy:
   provider: npm
   email: mvila@3base.com
   api_key:
-    secure: Czo8NBbdUZH0IfIaO98FuKUOxRolD12YRClyYSdHvjUoCO7NyiCD4Dv6li/x1rRWPt6wgFm0R6PKkpyh3bGWLhEMXjvpYOO6S+8Qt+5twvR1umiihJ/otBCVPdV5easylQgnSacMLU2n3zFwByo/vqZaF40m9H0hqfofZuR2tjI=
+    secure: VQ0F7Gu2ls6JT3HRBE4fX7QR6reYkODAfTjvt8zxNTA/lD8BGUCFmJqx5Z1ft4YK/3hcYZ4dD7hF/s06BdfzOyTd1JN+YDkvzU2/0+KFY3le8vn1xFrTYTvk8wl0fHek4O79ZqIeEsYC9uNkrdIsJCUgMO8751qHzTBUUVSsyJU=
 notifications:
   email: false
   slack:
-    secure: B7SzTnNXvsI2ahNE+mehVzMSDMVQCmMfiaOKFiW6mVHb9XvG9kRKiQwKYkEAwEuFgctBnLhBBBgRy+5u5VqO2guoXRbzyJW9OlDIn3x3P77SlstWoqdGuiHQ7sS+Upd/2RvaFj5BvXgBLheWLypihLqDSlU+pUx2d1M0B9hKXsA=
+    secure: UVtdq9KNR5gKtIVqRH7sD9rHsI9VVdIzJvjUbnIK6vYcU/GjpynBCW/5k4c3ue3mw7SbGoCg41dQZmS+MvPF4gX6IV+hFrOxc2NtFVS6aGiBoxjnanC4wqKjGH5iMq11vnK4eoAf9+77DhaDqFEFXYlwIXxoFmUDO0ltroZrBQ4=
 sudo: false
