@@ -19,29 +19,27 @@ var KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
       var itemClassName = itemClass.getName();
       this._collectionClassNamesByItemClassName[itemClassName] = collectionClassName;
     }, this);
-    this._cachedCollections = {};
     this.repository = this;
   });
 
-  this.createCollection = function(name) {
-    var collection = this._cachedCollections[name];
-    if (collection) return collection;
+  this.createCollection = function(name, cache) {
+    if (cache && name in cache) return cache[name];
     var klass = this.collectionClasses[name];
     if (!klass) {
       throw new Error('collection class \'' + name + '\' not found');
     }
-    collection = klass.create();
+    var collection = klass.create();
     collection.setRepository(this);
-    this._cachedCollections[name] = collection;
+    if (cache) cache[name] = collection;
     return collection;
   };
 
-  this.createCollectionFromItemClassName = function(name) {
+  this.createCollectionFromItemClassName = function(name, cache) {
     var collectionClassName = this._collectionClassNamesByItemClassName[name];
     if (!collectionClassName) {
       throw new Error('item class \'' + name + '\' not found');
     }
-    return this.createCollection(collectionClassName);
+    return this.createCollection(collectionClassName, cache);
   };
 });
 
