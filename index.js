@@ -22,6 +22,10 @@ var KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
     this.repository = this;
   });
 
+  this.use = function(plugin) {
+    plugin.plug(this);
+  };
+
   this.createCollection = function(name, cache) {
     if (cache && name in cache) return cache[name];
     var klass = this.collectionClasses[name];
