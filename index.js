@@ -32,11 +32,16 @@ var KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
     if (!klass) {
       throw new Error('collection class \'' + name + '\' not found');
     }
-    var collection = klass.create();
-    collection.setRepository(this);
+    var collection = this._createCollection(klass);
     if (cache) cache[name] = collection;
     return collection;
   };
+
+  this._createCollection = function(klass) {
+    var collection = klass.create();
+    collection.setRepository(this);
+    return collection;
+  }
 
   this.createCollectionFromItemClassName = function(name, cache) {
     var collectionClassName = this._collectionClassNamesByItemClassName[name];
@@ -44,6 +49,31 @@ var KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
       throw new Error('item class \'' + name + '\' not found');
     }
     return this.createCollection(collectionClassName, cache);
+  };
+
+  this.getRootCollectionClass = function() {
+    if (this._rootCollectionClass) return this._rootCollectionClass;
+    var rootCollectionClass;
+    _.forOwn(this.collectionClasses, function(klass) {
+      var itemPrototype = klass.getPrototype().Item.getPrototype();
+      var itemClassNames = itemPrototype.getClassNames();
+      if (itemClassNames.length === 1) { // TODO: find out a cleaner way
+        if (rootCollectionClass) {
+          throw new Error('more than one root collection class found');
+        }
+        rootCollectionClass = klass;
+      }
+    });
+    if (!rootCollectionClass) {
+      throw new Error('root collection class not found');
+    }
+    this.repository._rootCollectionClass = rootCollectionClass;
+    return rootCollectionClass;
+  };
+
+  this.createRootCollection = function() {
+    var klass = this.getRootCollectionClass();
+    return this._createCollection(klass);
   };
 });
 
