@@ -40,8 +40,9 @@ var KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
   this._createCollection = function(klass) {
     var collection = klass.create();
     collection.setRepository(this);
+    collection.context = {};
     return collection;
-  }
+  };
 
   this.createCollectionFromItemClassName = function(name, cache) {
     var collectionClassName = this._collectionClassNamesByItemClassName[name];
