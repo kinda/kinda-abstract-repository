@@ -18,7 +18,7 @@ let KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
     if (!options.url) throw new Error('repository url is missing');
     if (!_.isArray(options.collections)) throw new Error('collectionClasses is invalid');
 
-    let log = options.log;
+    let log = options.log || (application && application.log);
     if (!KindaLog.isClassOf(log)) log = KindaLog.create(log);
     this.log = log;
 
