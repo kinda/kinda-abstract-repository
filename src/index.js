@@ -42,14 +42,8 @@ let KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
     if (!klass) {
       throw new Error(`collection class '${name}' not found`);
     }
-    let collection = this._createCollection(klass);
+    let collection = klass.create(this);
     if (cache) cache[name] = collection;
-    return collection;
-  };
-
-  this._createCollection = function(klass) {
-    let collection = klass.create();
-    collection.repository = this;
     return collection;
   };
 
@@ -84,7 +78,7 @@ let KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
   });
 
   this.createRootCollection = function() {
-    return this._createCollection(this.rootCollectionClass);
+    return this.rootCollectionClass.create(this);
   };
 });
 
