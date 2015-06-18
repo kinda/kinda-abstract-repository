@@ -8,7 +8,12 @@ let KindaLog = require('kinda-log');
 let KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', function() {
   this.include(KindaEventManager);
 
-  this.creator = function(options = {}) {
+  this.creator = function(application, options) {
+    if (_.isPlainObject(application)) {
+      options = application;
+      application = undefined;
+    }
+    if (!options) options = {};
     if (!options.name) throw new Error('repository name is missing');
     if (!options.url) throw new Error('repository url is missing');
     if (!_.isArray(options.collections)) throw new Error('collectionClasses is invalid');
@@ -17,6 +22,7 @@ let KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
     if (!KindaLog.isClassOf(log)) log = KindaLog.create(log);
     this.log = log;
 
+    this.application = application;
     this.name = options.name;
 
     this.collectionClasses = {};
@@ -35,6 +41,15 @@ let KindaAbstractRepository = KindaObject.extend('KindaAbstractRepository', func
   this.use = function(plugin) {
     plugin.plug(this);
   };
+
+  Object.defineProperty(this, 'application', {
+    get() {
+      return this._application;
+    },
+    set(application) {
+      this._application = application;
+    }
+  });
 
   this.createCollection = function(name, cache) {
     if (cache && name in cache) return cache[name];
